@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <title>Anime-Musics</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
+</head>
+<body>
+    <nav onclick="init()">
+            <span class="material-symbols-outlined">
+                home
+            </span>
+    </nav>
+
+
+    <div id="animes" class="content">
+    </div>
+    <div id="animesMusics" class="content">
+    </div>
+    <div id="audio"></div>
+
+    <footer>
+        <img src="https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png" alt="" id="capa">
+        <h2 id="nameMusicPlayng">Nenhuma musica está tocando</h2>
+        <div>
+            <button onclick="musicPrev()">
+                <span class="material-symbols-outlined">
+                    skip_previous
+                </span>
+            </button>
+            <button onclick="playAndPause(this)">
+                <span class="material-symbols-outlined">
+                play_arrow
+                </span>
+            </button>
+            <button onclick="musicNext()">
+                <span class="material-symbols-outlined">
+                    skip_next
+                </span>
+        </div>
+        <input type="range" oninput="setvolume(this)" value="100">
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
