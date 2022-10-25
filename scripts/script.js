@@ -21,6 +21,7 @@ let findAnime = ""
 let capa = ""
 const storage = firebase.storage();
 init()
+let volume = 50
 
 
 function init(){
@@ -114,6 +115,7 @@ async function playMusicSelect(musicSelectInput, link){
     musicsSelect = creatMusic(link)
     await musicsSelect.load()
     musicsSelect.play()
+    musicsSelect.volume = volume
     isPlaying = true
     numMusicList = listMusicPlaying.findIndex(n =>  n.name == musicSelectInput)
 }
@@ -145,6 +147,7 @@ async function musicPrev(){
     document.querySelector("#nameMusicPlayng").innerHTML = listMusicPlaying[numMusicList].name.replace(".mp3", "")
     musicsSelect.load()
     musicsSelect.play()
+    musicsSelect.volume = volume
 }
     
 async function musicNext(){
@@ -160,10 +163,12 @@ async function musicNext(){
     musicsSelect.load()
     document.querySelector("#nameMusicPlayng").innerHTML = listMusicPlaying[numMusicList].name.replace(".mp3", "")
     musicsSelect.play()
+    musicsSelect.volume = volume
 }
     
 
 function setvolume(input){
-    musicsSelect.volume = input.value/100
+    volume = input.value/100
+    musicsSelect.volume = volume
 }
 
