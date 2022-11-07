@@ -1,24 +1,24 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyCj8-09WU4fZpW8G9F3K1Obhc78xD8DXbI",
-    authDomain: "animemusic-23292.firebaseapp.com",
-    projectId: "animemusic-23292",
-    storageBucket: "animemusic-23292.appspot.com",
-    messagingSenderId: "847267376326",
-    appId: "1:847267376326:web:0d75ccf8fa1cc1d1eb3bc7",
-    measurementId: "G-W1ZN9827XS"
+    apiKey:             "AIzaSyCj8-09WU4fZpW8G9F3K1Obhc78xD8DXbI",
+    authDomain:         "animemusic-23292.firebaseapp.com",
+    projectId:          "animemusic-23292",
+    storageBucket:      "animemusic-23292.appspot.com",
+    messagingSenderId:  "847267376326",
+    appId:              "1:847267376326:web:0d75ccf8fa1cc1d1eb3bc7",
+    measurementId:      "G-W1ZN9827XS"
   };
 
 firebase.initializeApp(firebaseConfig);
-let animes = ''
-let musics = ''
-let musicsSelect = ""
-let isPlaying = false
-let listMusic = []
-let listMusicPlaying = []
-let nameMusicSelect = ""
+let animes =            ''
+let musics =            ''
+let musicsSelect =      ""
+let isPlaying =         false
+let listMusic =         []
+let listMusicPlaying =  []
+let nameMusicSelect =   ""
 let numMusicList
-let findAnime = ""
-let capa = ""
+let findAnime =         ""
+let capa =              ""
 const storage = firebase.storage();
 init()
 let volume = 50

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/add.css">
+    <title>Adicionar musicas</title>
+</head>
+<body>
+
+    <div id="add">
+        <header id="headerAdd">
+            <h2>Escolha seu Anime</h2>
+            <select id="animeSelection"></select>
+        </header>
+        
+        <div id="infoAdd">
+            <section id="animeAdd">
+                <h2>Não encontrou Seu Anime?</h2>
+                <input type="text" id="nameAnime" placeholder="Coloque o nome do anime aqui">
+                <input type="button" onclick="addAnime()" value="adicionar anime">
+            </section>
+            
+            <section id="characterAdd">
+                <h2>informaçoes Sobre o anime</h2>
+                <input type="button" value="Add Foto">
+                <input type="button" value="Add Genero">
+            </section>
+        </div>
+        <main>
+            Colocar a musica
+        </main>
+    </div>
+
+    
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="scripts/addMusic.js"></script>
+</body>
+</html>
