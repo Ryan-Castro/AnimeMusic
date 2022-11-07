@@ -48,3 +48,29 @@ div#add{
 #add main{
     color: white;
 }
+
+#modalFoto{
+    background-color: rgba(0, 0, 0, 0.236);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#modalFotoContent{
+    background-color: white;
+    width: 50%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modalFotoContent img{
+    border: 1px solid black;
+    width: 300px;
+}

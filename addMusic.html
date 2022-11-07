@@ -24,7 +24,7 @@
             
             <section id="characterAdd">
                 <h2>informaçoes Sobre o anime</h2>
-                <input type="button" value="Add Foto">
+                <input type="button" value="Add Foto" onclick="showFoto()">
                 <input type="button" value="Add Genero">
             </section>
         </div>
@@ -33,7 +33,15 @@
         </main>
     </div>
 
-    
+    <div id="modalFoto" >
+        <div id="modalFotoContent">
+            <img src="https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png" alt="" id="capa">
+            <div id="controlsFoto">
+                <input type="file">
+                <input type="button" value="Adicionar Foto" onclick="addFoto">
+            </div>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>

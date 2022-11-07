@@ -42,4 +42,20 @@ function addAnime(){
     db.collection("Animes").doc(valueName).set({}).then(update(valueName))
 }
 
+function showFoto(){
+    let select = document.querySelector("#animeSelection")
+    let animeSelected = select.options[select.selectedIndex].value
+    if(animeSelected == "Qual é o anime?"){
+        window.alert("escolha algum anime")
+    } else {
+        document.querySelector("#modalFoto").style.display = "flex"
+    }
+    
+}
+document.querySelector("#modalFoto").addEventListener("click", hideFoto)
+function hideFoto(e){
+    if(e.target.id == "modalFoto")
+    document.querySelector("#modalFoto").style.display = "none"
+}
+
 update()
