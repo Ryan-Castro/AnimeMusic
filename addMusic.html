@@ -8,7 +8,9 @@
     <title>Adicionar musicas</title>
 </head>
 <body>
-
+    <div id="load">
+        <div id="circleLoad"></div>
+    </div>
     <div id="add">
         <header id="headerAdd">
             <h2>Escolha seu Anime</h2>
@@ -18,7 +20,7 @@
         <div id="infoAdd">
             <section id="animeAdd">
                 <h2>Não encontrou Seu Anime?</h2>
-                <input type="text" id="nameAnime" placeholder="Coloque o nome do anime aqui">
+                <input type="text" id="nameAnime" placeholder="Nome do novo anime">
                 <input type="button" onclick="addAnime()" value="adicionar anime">
             </section>
             
@@ -28,9 +30,13 @@
                 <input type="button" value="Add Genero">
             </section>
         </div>
+
         <main>
-            Colocar a musica
+            <input type="text" id="nameMusic" placeholder="Nome da musica">
+            <input type="file" id="fileMusic" accept="audio/*">
+            <input type="button" value="enviar" onclick="submitMusic()">
         </main>
+
     </div>
     <div id="confirmAdd" class="modal">
         <div id="confirmAddContent">

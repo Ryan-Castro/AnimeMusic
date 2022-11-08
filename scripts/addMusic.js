@@ -76,4 +76,19 @@ function hidemodal(e){
     }
 }
 
+function submitMusic(){
+    let select = document.querySelector("#animeSelection")
+    let animeSelected = select.options[select.selectedIndex].value
+    let name = document.querySelector("#nameMusic").value
+    let file = document.querySelector("#fileMusic").files[0]
+    
+    storage.ref().child(name).put(file).then((snapshot)=>{
+        storage.ref(name).getDownloadURL().then(url=>{
+            db.collection("Animes").doc(`${animeSelected}`).update({
+            musics : firebase.firestore.FieldValue.arrayUnion({name, link:url})
+            }).then(()=>{console.log("pronto")})
+        })
+    })
+}
+
 update()

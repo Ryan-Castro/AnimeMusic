@@ -4,6 +4,20 @@
     box-sizing: border-box;
 }
 
+#load{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+    
+}
+#circleLoad{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+}
 div#add{
     width: 100vw;
     height: 100vh;
@@ -61,10 +75,6 @@ div#add{
     height: 100vh;
 }
 
-#modalFoto{
-    
-}
-
 #confirmAddContent{
     background-color: white;
     width: 60%;
@@ -112,4 +122,12 @@ div#add{
 #modalFotoContent img{
     border: 1px solid black;
     width: 300px;
+}
+
+main{
+    background-color: red;
+    border-radius: 20px;
+    margin: 10px;
+    height: 100%;
+    padding: 30px;
 }
