@@ -39,9 +39,24 @@ async function update(name){
 
 function addAnime(){
     let valueName = document.querySelector("input#nameAnime").value
-    db.collection("Animes").doc(valueName).set({}).then(update(valueName))
+    if(valueName != ""){
+        document.querySelector("#confirmAdd").style.display = "flex"
+        document.querySelector("#confirmAddContent>h1").innerHTML = `Deseja adicionar <span>${valueName}</span> na lista de animes?`
+    }else{
+        alert("coloque algum nome de anime")
+    }
 }
 
+function confirmAdd(){
+    let valueName = document.querySelector("input#nameAnime").value
+    db.collection("Animes").doc(valueName).set({}).then(()=>{
+                                                        update(valueName)
+                                                        document.querySelector("#confirmAdd").style.display = "none"})
+}
+
+function cancelAdd(){
+    document.querySelector("#confirmAdd").style.display = "none"
+}
 function showFoto(){
     let select = document.querySelector("#animeSelection")
     let animeSelected = select.options[select.selectedIndex].value
@@ -52,10 +67,13 @@ function showFoto(){
     }
     
 }
-document.querySelector("#modalFoto").addEventListener("click", hideFoto)
-function hideFoto(e){
-    if(e.target.id == "modalFoto")
-    document.querySelector("#modalFoto").style.display = "none"
+document.querySelector("#modalFoto").addEventListener("click", hidemodal)
+document.querySelector("#confirmAdd").addEventListener("click", hidemodal)
+function hidemodal(e){
+    if(e.target.classList[0] == "modal"){
+        console.log("foi")
+        e.target.style.display = "none"
+    }
 }
 
 update()

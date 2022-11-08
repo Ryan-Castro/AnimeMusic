@@ -32,9 +32,18 @@
             Colocar a musica
         </main>
     </div>
+    <div id="confirmAdd" class="modal">
+        <div id="confirmAddContent">
+            <h1></h1>
+            <div>
+                <input type="button" onclick="confirmAdd()" value="Confirmar" id="confirm">
+                <input type="button" onclick="cancelAdd()" value="Cancelar" id="cancel">
+            </div>
 
-    <div id="modalFoto" >
-        <div id="modalFotoContent">
+        </div>
+    </div>
+    <div id="modalFoto" class="modal">
+        <div id="modalFotoContent" >
             <img src="https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png" alt="" id="capa">
             <div id="controlsFoto">
                 <input type="file">
