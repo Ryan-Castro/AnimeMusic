@@ -93,4 +93,15 @@ function submitMusic(){
     })
 }
 
+function search(){
+    let select = document.querySelector("#animeSelection")
+    let animeSelected = select.options[select.selectedIndex].value
+    document.querySelector("main>ul").innerHTML = ""
+    db.collection("Animes").doc(animeSelected).get().then((snapshot)=>{
+        snapshot.data().musics.map((music)=>{
+            document.querySelector("main>ul").innerHTML += `<li>${music.name}</li>`
+        })
+    })
+}
+
 update()

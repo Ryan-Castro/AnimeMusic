@@ -15,7 +15,7 @@
     <div id="add">
         <header id="headerAdd">
             <h2>Escolha seu Anime</h2>
-            <select id="animeSelection"></select>
+            <select id="animeSelection" onchange="search()"></select>
         </header>
         
         <div id="infoAdd">
@@ -36,6 +36,8 @@
             <input type="text" id="nameMusic" placeholder="Nome da musica">
             <input type="file" id="fileMusic" accept="audio/*">
             <input type="button" value="enviar" onclick="submitMusic()">
+            <h1>lista de musicas já encontradas</h1>
+            <ul></ul>
         </main>
 
     </div>
