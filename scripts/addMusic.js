@@ -77,6 +77,7 @@ function hidemodal(e){
 }
 
 function submitMusic(){
+    document.querySelector("#load").style.display = "flex"
     let select = document.querySelector("#animeSelection")
     let animeSelected = select.options[select.selectedIndex].value
     let name = document.querySelector("#nameMusic").value
@@ -86,7 +87,8 @@ function submitMusic(){
         storage.ref(name).getDownloadURL().then(url=>{
             db.collection("Animes").doc(`${animeSelected}`).update({
             musics : firebase.firestore.FieldValue.arrayUnion({name, link:url})
-            }).then(()=>{console.log("pronto")})
+            }).then(()=>{update() 
+                        document.querySelector("#load").style.display = "none"})
         })
     })
 }

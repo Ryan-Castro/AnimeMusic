@@ -1,0 +1,24 @@
+#load{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.21);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    
+}
+#circleLoad{
+    width: 100px;
+    height: 100px;
+    animation: loading 2s linear infinite;
+    border: 1px solid rgba(0, 0, 0, 0.237);
+    border-left-color: white;
+    border-radius: 50%;
+}
+
+@keyframes loading{
+    to{transform: rotate(360deg);}
+}

@@ -4,20 +4,7 @@
     box-sizing: border-box;
 }
 
-#load{
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    background-color: white;
-    
-}
-#circleLoad{
-    width: 100px;
-    height: 100px;
-    background-color: red;
-}
+
 div#add{
     width: 100vw;
     height: 100vh;
