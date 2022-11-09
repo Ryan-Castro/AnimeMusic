@@ -9,6 +9,8 @@ const firebaseConfig = {
   };
 
 firebase.initializeApp(firebaseConfig);
+let db =                firebase.firestore()
+const storage =         firebase.storage();
 let animes =            ''
 let musics =            ''
 let musicsSelect =      ""
@@ -19,10 +21,9 @@ let nameMusicSelect =   ""
 let numMusicList
 let findAnime =         ""
 let capa =              ""
-const storage = firebase.storage();
-init()
-let volume = 50
+let volume =            50
 
+init()
 
 function init(){
     

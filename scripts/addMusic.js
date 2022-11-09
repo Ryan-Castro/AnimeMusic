@@ -69,6 +69,7 @@ function showFoto(){
 }
 document.querySelector("#modalFoto").addEventListener("click", hidemodal)
 document.querySelector("#confirmAdd").addEventListener("click", hidemodal)
+document.querySelector("#modalDelet").addEventListener("click", hidemodal)
 function hidemodal(e){
     if(e.target.classList[0] == "modal"){
         console.log("foi")
@@ -102,6 +103,31 @@ function search(){
             document.querySelector("main>ul").innerHTML += `<li>${music.name}</li>`
         })
     })
+}
+
+function showDeletModal(){
+    let select = document.querySelector("#animeSelection")
+    let animeSelected = select.options[select.selectedIndex].value
+    if(animeSelected != "Qual é o anime?"){
+        document.querySelector("#modalDeletContent>h1").innerHTML = `Deseja Apagar ${animeSelected} da lista de anime?`
+        document.querySelector("#modalDelet").style.display = "flex"
+    } else {
+        alert("Escolha um anime")
+    }
+}
+
+function cancelDelet(){
+    document.querySelector("#modalDelet").style.display = "none"
+}
+
+function delet(){
+    let select = document.querySelector("#animeSelection")
+    let animeSelected = select.options[select.selectedIndex].value
+    document.querySelector("#load").style.display = "flex"
+    document.querySelector("#modalDelet").style.display = "none"
+    db.collection("Animes").doc(animeSelected).delete().then(()=>{  document.querySelector("#load").style.display = "none"
+                                                                    update()
+})
 }
 
 update()

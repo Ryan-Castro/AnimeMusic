@@ -1,0 +1,70 @@
+.modal{
+    background-color: rgba(0, 0, 0, 0.236);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.contentModal{
+    background-color: white;
+    display: flex;
+}
+#confirmAddContent{
+    width: 60%;
+    height: 25%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#confirmAddContent>h1{
+    margin-bottom: 10px;
+}
+
+#confirmAddContent>h1>span{
+    color: red;
+}
+.contentModal>div{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.contentModal input{
+    width: 200px;
+    height: 50px;
+    border-radius: 50px;
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+.contentModal input.confirm{
+    background-color: green;
+}
+.contentModal input.cancel{
+    background-color: red;
+}
+#modalFotoContent{
+    width: 50%;
+    height: 60%;
+    justify-content: center;
+    align-items: center;
+}
+
+#modalFotoContent img{
+    border: 1px solid black;
+    width: 300px;
+}
+
+#modalDeletContent{
+    width: 60%;
+    height: 25%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/add.css">
     <link rel="stylesheet" href="style/load.css">
+    <link rel="stylesheet" href="style/modais.css">
     <title>Adicionar musicas</title>
 </head>
 <body>
@@ -29,6 +30,7 @@
                 <h2>informaçoes Sobre o anime</h2>
                 <input type="button" value="Add Foto" onclick="showFoto()">
                 <input type="button" value="Add Genero">
+                <input type="button" value="Apagar Anime" onclick="showDeletModal()">
             </section>
         </div>
 
@@ -42,21 +44,31 @@
 
     </div>
     <div id="confirmAdd" class="modal">
-        <div id="confirmAddContent">
+        <div id="confirmAddContent" class="contentModal">
             <h1></h1>
             <div>
-                <input type="button" onclick="confirmAdd()" value="Confirmar" id="confirm">
-                <input type="button" onclick="cancelAdd()" value="Cancelar" id="cancel">
+                <input type="button" onclick="confirmAdd()" value="Confirmar" class="confirm">
+                <input type="button" onclick="cancelAdd()" value="Cancelar" class="cancel">
             </div>
 
         </div>
     </div>
     <div id="modalFoto" class="modal">
-        <div id="modalFotoContent" >
+        <div id="modalFotoContent" class="contentModal">
             <img src="https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png" alt="" id="capa">
             <div id="controlsFoto">
                 <input type="file">
-                <input type="button" value="Adicionar Foto" onclick="addFoto">
+                <input type="button" value="Adicionar Foto" onclick="addFoto()">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalDelet" class="modal">
+        <div id="modalDeletContent" class="contentModal">
+            <h1></h1>
+            <div>
+                <input type="button" value="Deletar" onclick="delet()" class="cancel">
+                <input type="button" value="Cancelar" onclick="cancelDelet()" class="confirm">
             </div>
         </div>
     </div>
