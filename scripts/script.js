@@ -21,18 +21,18 @@ let nameMusicSelect =   ""
 let numMusicList
 let findAnime =         ""
 let capa =              ""
-let volume =            50
+let volume =            .5
 
 init()
 
 function init(){
     
-    storage.ref().listAll().then(res=>{
+    db.collection("Animes").get().then((snapshot)=>{
     animes = ""
-    res.prefixes.map(pastas=>{
-       animes += `  <li onclick="listingMusics('${pastas.fullPath}')">
+    snapshot.forEach(pastas=>{
+       animes += `  <li onclick="listingMusics('${pastas.id}')">
                         <div class="anime">
-                            <h1>${pastas.fullPath}</h1>
+                            <h1>${pastas.id}</h1>
                         </div>
                     </li>`
     })
@@ -50,29 +50,20 @@ function listingMusics(anime){
     }
     findAnime = anime
     listMusic = [] 
-   
-    storage.ref("/" + anime).listAll().then(res=>{
-        res.items.map(iten=>{  
-            iten.getDownloadURL().then(url=>{
-                if (iten.name != "capa.jpg"){
-                    listMusic.push({name: iten.name, link: url})
-                } else {
-                    capa = url
-                }
-            }).then(res=>{
+    document.querySelector("#load").style.display = "flex"
+    db.collection("Animes").doc(anime).get().then((snapshot)=>{
+        console.log(snapshot.data().musics)
+        snapshot.data().musics.forEach(iten=>{  
+            listMusic.push({name: iten.name, link: iten.link})
+            })}).then(res=>{
                 listMusic.sort(function(a, b){
                     if(a.name < b.name){
                         return -1 
                     } else {
                         return true
                     }
-                }) 
-                
-                renderMusic()
-            })
-                
-    })
-
+                } )
+        renderMusic()
 })
 }
 
@@ -95,6 +86,7 @@ function renderMusic(){
     document.querySelector('#animes').style.display = "none"
     document.querySelector('#animesMusics').style.display = "block"
     document.querySelector('#animesMusics').innerHTML = musics
+    document.querySelector("#load").style.display = "none"
 }
 
 function creatMusic(link){
