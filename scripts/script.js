@@ -24,9 +24,22 @@ let capa =              ""
 let volume =            .5
 
 init()
+topHits()
+
+function topHits(){
+    let topHits = []
+    db.collection("controle").doc("vezesTocadas").get().then((snapshot)=>{
+        Object.keys(snapshot.data()).forEach(hits=>{
+            if(topHits.length < 2){
+                topHits.push(snapshot.data()[hits])
+            }
+            
+        })
+    })
+}
+
 
 function init(){
-    
     db.collection("Animes").get().then((snapshot)=>{
     animes = ""
     snapshot.forEach(pastas=>{
@@ -52,9 +65,8 @@ function listingMusics(anime){
     listMusic = [] 
     document.querySelector("#load").style.display = "flex"
     db.collection("Animes").doc(anime).get().then((snapshot)=>{
-        console.log(snapshot.data().musics)
         snapshot.data().musics.forEach(iten=>{  
-            listMusic.push({name: iten.name, link: iten.link})
+            listMusic.push({name: iten.name, link: iten.link, anime})
             })}).then(res=>{
                 listMusic.sort(function(a, b){
                     if(a.name < b.name){
@@ -69,7 +81,6 @@ function listingMusics(anime){
 
 function renderMusic(){
     musics = ""
-    
     listMusic.map(music=>{
         let name = music.name
     musics += `
@@ -77,7 +88,7 @@ function renderMusic(){
             <h2>
                 ${name.replace(".mp3", "")}
             </h2>
-            <button onclick="playMusicSelect('${name}', '${music.link}')"><span class="material-symbols-outlined">
+            <button onclick="playMusicSelect('${name}', '${music.link}', '${music.anime}')"><span class="material-symbols-outlined">
             play_circle
             </span></button>     
         </div>
@@ -96,25 +107,26 @@ function creatMusic(link){
     return musicInput
 }
 
-async function playMusicSelect(musicSelectInput, link){
-    document.querySelector("#nameMusicPlayng").innerHTML = musicSelectInput.replace(".mp3", "")
 
+async function playMusicSelect(musicSelectInput, link, anime){
+    document.querySelector("#nameMusicPlayng").innerHTML = musicSelectInput.replace(".mp3", "")
     listMusicPlaying = listMusic
     document.querySelector("#capa").setAttribute("src", capa)
     if(isPlaying){
         musicsSelect.pause()
     }
-
     musicsSelect = creatMusic(link)
     await musicsSelect.load()
     musicsSelect.play()
     musicsSelect.volume = volume
     isPlaying = true
     numMusicList = listMusicPlaying.findIndex(n =>  n.name == musicSelectInput)
+    updateCont(musicSelectInput, anime)
 }
 
+
+
 function playAndPause(button){
-    
     if(musicsSelect != ""){
     if(isPlaying){
         musicsSelect.pause()
@@ -138,6 +150,7 @@ async function musicPrev(){
       
     musicsSelect = creatMusic(`${listMusicPlaying[numMusicList].link}`)
     document.querySelector("#nameMusicPlayng").innerHTML = listMusicPlaying[numMusicList].name.replace(".mp3", "")
+    updateCont(listMusicPlaying[numMusicList].name, listMusicPlaying[numMusicList].anime)
     musicsSelect.load()
     musicsSelect.play()
     musicsSelect.volume = volume
@@ -153,6 +166,7 @@ async function musicNext(){
     }
       
     musicsSelect = creatMusic(`${listMusicPlaying[numMusicList].link}`)
+    updateCont(listMusicPlaying[numMusicList].name, listMusicPlaying[numMusicList].anime)
     musicsSelect.load()
     document.querySelector("#nameMusicPlayng").innerHTML = listMusicPlaying[numMusicList].name.replace(".mp3", "")
     musicsSelect.play()
@@ -163,5 +177,13 @@ async function musicNext(){
 function setvolume(input){
     volume = input.value/100
     musicsSelect.volume = volume
+}
+
+function updateCont(name, anime){ 
+    let numCont = 1
+    let newObject = {}
+    db.collection("controle").doc("vezesTocadas").get().then((snapshot)=>{  
+        newObject[name] = {cont: numCont + snapshot.data()[name].cont, anime, name}
+    }).then(()=>{db.collection("controle").doc("vezesTocadas").update(newObject)})
 }
 
