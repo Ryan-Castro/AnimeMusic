@@ -22,7 +22,6 @@ let numMusicList
 let findAnime =         ""
 let capa =              ""
 let volume =            .5
-let sorted = []
 init()
 topHits()
 
@@ -33,22 +32,35 @@ function topHits(){
             if(topHits.length < 10){
                 topHits.push(snapshot.data()[hits])
             } else {
-                sorted = topHits
-                sorted.sort((a,b)=>b.cont - a.cont)
-                if(sorted[9].cont < snapshot.data()[hits].cont){
-                    sorted[9] = snapshot.data()[hits]
+                topHits.sort((a,b)=>b.cont - a.cont)
+                if(topHits[9].cont < snapshot.data()[hits].cont){
+                    topHits[9] = snapshot.data()[hits]
                 }
-                sorted.sort((a,b)=>b.cont - a.cont)
+                topHits.sort((a,b)=>b.cont - a.cont)
             }
             
         })
-        renderTopHits()
+        renderTopHits(topHits)
     })
 }
 
-function renderTopHits(){
+function renderTopHits(topHitsArray){
+    document.querySelector("#cards").innerHTML = ""
+    document.querySelector("#inputsCarousel").innerHTML = ""
+    topHitsArray.map((music, i)=>{
+        document.querySelector("#cards").innerHTML 
+            += `
+                <div class="card num${i}" >
+                    <h1>${music.anime}-${music.name}</h1>
+                </div> 
+            `
+        document.querySelector("#inputsCarousel").innerHTML+=
+            `<input type="radio" name="radio.btn" id="radio${i}" onchange="slide(${i})">`
+    })
+}
 
-
+function slide(i){
+    document.getElementById("cards").style.marginLeft = `-${i}00%`
 }
 
 
