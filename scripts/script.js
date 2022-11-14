@@ -22,7 +22,7 @@ let numMusicList
 let findAnime =         ""
 let capa =              ""
 let volume =            .5
-
+let sorted = []
 init()
 topHits()
 
@@ -30,12 +30,25 @@ function topHits(){
     let topHits = []
     db.collection("controle").doc("vezesTocadas").get().then((snapshot)=>{
         Object.keys(snapshot.data()).forEach(hits=>{
-            if(topHits.length < 2){
+            if(topHits.length < 10){
                 topHits.push(snapshot.data()[hits])
+            } else {
+                sorted = topHits
+                sorted.sort((a,b)=>b.cont - a.cont)
+                if(sorted[9].cont < snapshot.data()[hits].cont){
+                    sorted[9] = snapshot.data()[hits]
+                }
+                sorted.sort((a,b)=>b.cont - a.cont)
             }
             
         })
+        renderTopHits()
     })
+}
+
+function renderTopHits(){
+
+
 }
 
 
@@ -180,10 +193,10 @@ function setvolume(input){
 }
 
 function updateCont(name, anime){ 
-    let numCont = 1
     let newObject = {}
-    db.collection("controle").doc("vezesTocadas").get().then((snapshot)=>{  
-        newObject[name] = {cont: numCont + snapshot.data()[name].cont, anime, name}
+    db.collection("controle").doc("vezesTocadas").get().then((snapshot)=>{
+        let numCont = snapshot.data()[name] ? snapshot.data()[name].cont : 0  
+        newObject[name] = {cont: numCont + 1, anime, name}
     }).then(()=>{db.collection("controle").doc("vezesTocadas").update(newObject)})
 }
 
