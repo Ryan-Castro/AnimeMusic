@@ -67,10 +67,16 @@ li{
     padding: 25px;
     display: flex;
     align-items: flex-end;
+    background-size: cover;
 }
 
 .card h1{
     color: white;
+    text-shadow: 1px 1px 1px black;
+    background-color: rgba(0, 0, 0, 0.501);
+    padding: 15px;
+    border-radius: 10px;
+
 }
 
 main{

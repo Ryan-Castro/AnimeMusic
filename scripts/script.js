@@ -48,12 +48,15 @@ function renderTopHits(topHitsArray){
     document.querySelector("#cards").innerHTML = ""
     document.querySelector("#inputsCarousel").innerHTML = ""
     topHitsArray.map((music, i)=>{
-        document.querySelector("#cards").innerHTML 
+        db.collection("Animes").doc(music.anime).get().then((snapshot)=>{       
+            document.querySelector("#cards").innerHTML 
             += `
-                <div class="card num${i}" >
-                    <h1>${music.anime}-${music.name}</h1>
+                <div class="card num${i}" style="background-image: url(${snapshot.data().capa})" >
+                    <h1>${music.anime} - ${music.name}</h1>
                 </div> 
             `
+        })
+
         document.querySelector("#inputsCarousel").innerHTML+=
             `<input type="radio" name="radio.btn" id="radio${i}" onchange="slide(${i})">`
     })
