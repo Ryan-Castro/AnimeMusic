@@ -58,15 +58,38 @@ function cancelAdd(){
     document.querySelector("#confirmAdd").style.display = "none"
 }
 function showFoto(){
+    
     let select = document.querySelector("#animeSelection")
     let animeSelected = select.options[select.selectedIndex].value
     if(animeSelected == "Qual é o anime?"){
         window.alert("escolha algum anime")
     } else {
-        document.querySelector("#modalFoto").style.display = "flex"
+        db.collection("Animes").doc(animeSelected).get().then((snapshot)=>{
+            document.querySelector("#capa").src = snapshot.data().capa ? snapshot.data().capa : "https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png"
+        }).then(()=>{document.querySelector("#modalFoto").style.display = "flex"})
     }
     
 }
+
+function addImg(){
+    document.querySelector("#load").style.display = "flex"
+    let fileImg = document.querySelector("#fileImg").files[0]
+    let select = document.querySelector("#animeSelection")
+    let animeSelected = select.options[select.selectedIndex].value
+
+    storage.ref().child(animeSelected+"capa").put(fileImg).then((snapshot)=>{
+        storage.ref(animeSelected+"capa").getDownloadURL().then(url=>{
+            db.collection("Animes").doc(`${animeSelected}`).update({
+            capa :  url
+            }).then(()=>{document.querySelector("#load").style.display = "none" 
+                        document.querySelector("#capa").src = url})
+        })
+    })
+}
+
+
+
+
 document.querySelector("#modalFoto").addEventListener("click", hidemodal)
 document.querySelector("#confirmAdd").addEventListener("click", hidemodal)
 document.querySelector("#modalDelet").addEventListener("click", hidemodal)

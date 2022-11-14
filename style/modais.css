@@ -32,15 +32,20 @@
 .contentModal>div{
     width: 100%;
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
 }
-.contentModal input{
+.contentModal input[type=button]{
     width: 200px;
     height: 50px;
     border-radius: 50px;
     font-size: 1.2em;
     color: white;
     text-shadow: 1px 1px 1px black;
+}
+
+#controlsFoto{
+    flex-direction: column;
 }
 .contentModal input.confirm{
     background-color: green;
