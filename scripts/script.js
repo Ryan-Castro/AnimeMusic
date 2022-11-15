@@ -129,11 +129,18 @@ function renderMusic(){
 }
 
 function creatMusic(link){
-    let musicInput = document.createElement('audio')
-    musicInput.setAttribute('src', `${link}`)
-    musicInput.addEventListener("ended", musicNext);
-    return musicInput
+    document.querySelector("#audio").innerHTML = ""
+    document.querySelector("#audio").innerHTML = `  <audio id="musicPlaying" preload="metadata">
+                                                        <source src="${link}">
+                                                    </audio>`
+    document.querySelector("#musicPlaying").addEventListener("ended", musicNext);
+    document.querySelector("#musicPlaying").onloadedmetadata = function() {
+        document.querySelector("#timeMusic").max = Math.round(document.querySelector("#musicPlaying").duration)
+};
+
 }
+
+
 
 
 async function playMusicSelect(musicSelectInput, link, anime){
@@ -141,27 +148,28 @@ async function playMusicSelect(musicSelectInput, link, anime){
     listMusicPlaying = listMusic
     document.querySelector("#capa").setAttribute("src", capa)
     if(isPlaying){
-        musicsSelect.pause()
+        document.querySelector("#musicPlaying").pause()
     }
-    musicsSelect = creatMusic(link)
-    await musicsSelect.load()
-    musicsSelect.play()
-    musicsSelect.volume = volume
+    creatMusic(link)
+    await document.querySelector("#musicPlaying").load()
+    document.querySelector("#musicPlaying").play()
+    document.querySelector("#musicPlaying").volume = volume
     isPlaying = true
     numMusicList = listMusicPlaying.findIndex(n =>  n.name == musicSelectInput)
     updateCont(musicSelectInput, anime)
+    console.log(document.getElementById("musicPlaying").duration)
 }
 
 
 
 function playAndPause(button){
-    if(musicsSelect != ""){
+    if(document.querySelector("#musicPlaying") != ""){
     if(isPlaying){
-        musicsSelect.pause()
+        document.querySelector("#musicPlaying").pause()
         isPlaying = false
         button.children[0].innerHTML = "pause"
     } else{
-        musicsSelect.play()
+        document.querySelector("#musicPlaying").play()
         isPlaying = true
         button.children[0].innerHTML = "play_arrow"
     }}
@@ -169,42 +177,60 @@ function playAndPause(button){
 
 async function musicPrev(){
     
-    await musicsSelect.pause()
+    await document.querySelector("#musicPlaying").pause()
     if(numMusicList == 0){
         numMusicList = listMusicPlaying.length - 1
     } else {
         --numMusicList
     }
       
-    musicsSelect = creatMusic(`${listMusicPlaying[numMusicList].link}`)
+    creatMusic(`${listMusicPlaying[numMusicList].link}`)
     document.querySelector("#nameMusicPlayng").innerHTML = listMusicPlaying[numMusicList].name.replace(".mp3", "")
     updateCont(listMusicPlaying[numMusicList].name, listMusicPlaying[numMusicList].anime)
-    musicsSelect.load()
-    musicsSelect.play()
-    musicsSelect.volume = volume
+    document.querySelector("#musicPlaying").load()
+    document.querySelector("#musicPlaying").play()
+    document.querySelector("#musicPlaying").volume = volume
 }
     
 async function musicNext(){
     
-    await musicsSelect.pause()
+    await document.querySelector("#musicPlaying").pause()
     if(numMusicList == listMusicPlaying.length - 1){
         numMusicList = 0
     } else {
         ++numMusicList
     }
       
-    musicsSelect = creatMusic(`${listMusicPlaying[numMusicList].link}`)
+    creatMusic(`${listMusicPlaying[numMusicList].link}`)
     updateCont(listMusicPlaying[numMusicList].name, listMusicPlaying[numMusicList].anime)
-    musicsSelect.load()
+    document.querySelector("#musicPlaying").load()
     document.querySelector("#nameMusicPlayng").innerHTML = listMusicPlaying[numMusicList].name.replace(".mp3", "")
-    musicsSelect.play()
-    musicsSelect.volume = volume
+    document.querySelector("#musicPlaying").play()
+    document.querySelector("#musicPlaying").volume = volume
 }
+
+setInterval(()=>{
+    let tempoPercorrido = document.querySelector("#musicPlaying").currentTime
+    let tempoTotal = document.querySelector("#musicPlaying").duration
+    if(isPlaying){
+        document.querySelector("#timeMusic").value = Math.round(tempoPercorrido)
+        document.querySelector("#div-time>p").innerHTML = 
+        
+        `${Math.round(tempoPercorrido/60)}:${Math.round(tempoPercorrido%60)}
+        /${Math.round(tempoTotal/60)}:${Math.round(tempoTotal%60)}`
+    
+    }
+},1000)
     
 
 function setvolume(input){
     volume = input.value/100
-    musicsSelect.volume = volume
+    document.querySelector("#musicPlaying").volume = volume
+}
+
+function setTime(input){
+    time = input.value
+    document.querySelector("#musicPlaying").currentTime = time
 }
 
 function updateCont(name, anime){ 

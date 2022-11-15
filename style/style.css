@@ -137,6 +137,25 @@ footer{
     background-color: #00023f;
     border-bottom: 1px solid rgba(255, 255, 255, 0.407);
 }
+
+#controlsMusic{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+#div-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#div-time{
+    width: 100%;
+    display: flex;
+}
+#div-time input{
+    width: 80%;
+    display: flex;
+}
 button{
     background-color: transparent;
     color: white;
