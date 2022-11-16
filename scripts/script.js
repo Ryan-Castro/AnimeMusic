@@ -24,35 +24,42 @@ let capa =              ""
 let volume =            .5
 init()
 topHits()
-
+let topHitsArray = []
 function topHits(){
-    let topHits = []
     db.collection("controle").doc("vezesTocadas").get().then((snapshot)=>{
         Object.keys(snapshot.data()).forEach(hits=>{
-            if(topHits.length < 10){
-                topHits.push(snapshot.data()[hits])
+            if(topHitsArray.length < 10){
+                topHitsArray.push(snapshot.data()[hits])
             } else {
-                topHits.sort((a,b)=>b.cont - a.cont)
-                if(topHits[9].cont < snapshot.data()[hits].cont){
-                    topHits[9] = snapshot.data()[hits]
+                topHitsArray.sort((a,b)=>b.cont - a.cont)
+                if(topHitsArray[9].cont < snapshot.data()[hits].cont){
+                    topHitsArray[9] = snapshot.data()[hits]
                 }
-                topHits.sort((a,b)=>b.cont - a.cont)
+                topHitsArray.sort((a,b)=>b.cont - a.cont)
             }
             
         })
-        renderTopHits(topHits)
+        renderTopHits(topHitsArray)
     })
 }
 
-function renderTopHits(topHitsArray){
+async function renderTopHits(topHitsArray){
     document.querySelector("#cards").innerHTML = ""
     document.querySelector("#inputsCarousel").innerHTML = ""
-    topHitsArray.map((music, i)=>{
-        db.collection("Animes").doc(music.anime).get().then((snapshot)=>{       
+    await topHitsArray.map((music, i)=>{
+         db.collection("Animes").doc(music.anime).get().then((snapshot)=>{
+            console.log(snapshot.data())
+            let linkMusic = ""
+            topHitsArray[i].capa = snapshot.data().capa
+            snapshot.data().musics.map((itenArray)=>{
+                if(itenArray.name==music.name){linkMusic=itenArray.link}
+                    
+            })
+            topHitsArray[i].link = linkMusic    
             document.querySelector("#cards").innerHTML 
             += `
-                <div class="card num${i}" style="background-image: url(${snapshot.data().capa})" >
-                    <h1>${music.anime} - ${music.name}</h1>
+                <div class="card num${i}" style="background-image: url(${snapshot.data().capa})" onclick="playMusicSelect('${music.name}', '${linkMusic}', '${music.anime}', true)">
+                    <h1>${music.anime} - ${music.name} - ${music.cont}</h1>
                 </div> 
             `
         })
@@ -93,22 +100,33 @@ function listingMusics(anime){
     listMusic = [] 
     document.querySelector("#load").style.display = "flex"
     db.collection("Animes").doc(anime).get().then((snapshot)=>{
-        capa = snapshot.data().capa
-        snapshot.data().musics.forEach(iten=>{
-            listMusic.push({name: iten.name, link: iten.link, anime})
-            })}).then(res=>{
-                listMusic.sort(function(a, b){
-                    if(a.name < b.name){
-                        return -1 
-                    } else {
-                        return true
-                    }
-                } )
+        if(snapshot.data().musics){
+            snapshot.data().musics.forEach(iten=>{
+                listMusic.push({name: iten.name, link: iten.link, anime, capa:snapshot.data().capa})
+            })
+        } else {
+            return
+        }
+    }).then(res=>{
+        listMusic.sort(function(a, b){
+            if(a.name < b.name){
+                return -1 
+            } else {
+                return true
+            }
+        })
         renderMusic()
-})
+    })
 }
 
 function renderMusic(){
+    if(listMusic.length == 0){
+        document.querySelector('#animesMusics').innerHTML = `<div><h1>Nenhuma musica encontrada</h1></div>`
+        document.querySelector('#animes').style.display = "none"
+        document.querySelector('#animesMusics').style.display = "block"
+        document.querySelector("#load").style.display = "none"
+        return
+    }
     musics = ""
     listMusic.map(music=>{
         let name = music.name
@@ -117,7 +135,7 @@ function renderMusic(){
             <h2>
                 ${name.replace(".mp3", "")}
             </h2>
-            <button onclick="playMusicSelect('${name}', '${music.link}', '${music.anime}')"><span class="material-symbols-outlined">
+            <button onclick="playMusicSelect('${name}', '${music.link}', '${music.anime}', false)"><span class="material-symbols-outlined">
             play_circle
             </span></button>     
         </div>
@@ -137,6 +155,24 @@ function creatMusic(link){
     document.querySelector("#musicPlaying").addEventListener("ended", musicNext);
     document.querySelector("#musicPlaying").onloadedmetadata = function() {
         document.querySelector("#timeMusic").max = Math.round(document.querySelector("#musicPlaying").duration)
+        setInterval(()=>{
+            if(isPlaying){
+                let tempoPercorrido = document.querySelector("#musicPlaying").currentTime
+                let tempoTotal = document.querySelector("#musicPlaying").duration == NaN ? 0 : document.querySelector("#musicPlaying").duration
+                let timeTot = new Date(null);
+                let timeupdate = new Date(null);
+                timeTot.setSeconds(tempoTotal);
+                timeupdate.setSeconds(tempoPercorrido)
+        
+                document.querySelector("#timeMusic").value = Math.round(tempoPercorrido)
+                document.querySelector("#div-time>p").innerHTML = 
+                
+                `${timeupdate.toISOString().substr(15, 4)}
+                /${timeTot.toISOString().substr(15, 4)}`
+            
+            }
+        },1000)
+            
 };
 
 }
@@ -144,10 +180,19 @@ function creatMusic(link){
 
 
 
-async function playMusicSelect(musicSelectInput, link, anime){
+async function playMusicSelect(musicSelectInput, link, anime, isTopHits){
     document.querySelector("#nameMusicPlayng").innerHTML = musicSelectInput.replace(".mp3", "")
+    if(isTopHits){
+        listMusic = topHitsArray
+    }
+    console.log(listMusic)
     listMusicPlaying = listMusic
-    document.querySelector("#capa").setAttribute("src", capa)
+    listMusicPlaying.map((itenArray)=>{
+        if(itenArray.name==musicSelectInput){
+            document.querySelector("#capa").setAttribute("src", itenArray.capa)
+        }
+    })
+    
     if(isPlaying){
         document.querySelector("#musicPlaying").pause()
     }
@@ -162,13 +207,15 @@ async function playMusicSelect(musicSelectInput, link, anime){
     updatePlaylist(listMusicPlaying, musicSelectInput)
 }
 
+
+
 function updatePlaylist(playlist, musicSelectInput){
     document.querySelector("#playListPlaying").innerHTML = ""
     playlist.map((musicInPlaylist)=>{
         if(musicInPlaylist.name == musicSelectInput){
-            document.querySelector("#playListPlaying").innerHTML += `<li class="playing">${musicInPlaylist.name}</li>`
+            document.querySelector("#playListPlaying").innerHTML += `<button onclick="playMusicSelect('${musicInPlaylist.name}', '${musicInPlaylist.link}', '${musicInPlaylist.anime}')" class="playing"><li>${musicInPlaylist.name}</li></button>`
         }else{
-            document.querySelector("#playListPlaying").innerHTML += `<li>${musicInPlaylist.name}</li>` 
+            document.querySelector("#playListPlaying").innerHTML += `<button onclick="playMusicSelect('${musicInPlaylist.name}', '${musicInPlaylist.link}', '${musicInPlaylist.anime}')"><li >${musicInPlaylist.name}</li></button>`  
         }
         
     })
@@ -225,24 +272,7 @@ async function musicNext(){
     updatePlaylist(listMusicPlaying, listMusicPlaying[numMusicList].name)
 }
 
-setInterval(()=>{
-    if(isPlaying){
-        let tempoPercorrido = document.querySelector("#musicPlaying").currentTime
-        let tempoTotal = document.querySelector("#musicPlaying").duration == NaN ? 0 : document.querySelector("#musicPlaying").duration
-        let timeTot = new Date(null);
-        let timeupdate = new Date(null);
-        timeTot.setSeconds(tempoTotal);
-        timeupdate.setSeconds(tempoPercorrido)
 
-        document.querySelector("#timeMusic").value = Math.round(tempoPercorrido)
-        document.querySelector("#div-time>p").innerHTML = 
-        
-        `${timeupdate.toISOString().substr(15, 4)}
-        /${timeTot.toISOString().substr(15, 4)}`
-    
-    }
-},1000)
-    
 
 function setvolume(input){
     volume = input.value/100

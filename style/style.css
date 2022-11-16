@@ -101,7 +101,7 @@ main section{
 
 }
 
-#playListPlaying li{
+#playListPlaying button{
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 5px;
@@ -109,7 +109,7 @@ main section{
     display: flex;
     width: 90%;
 }
-#playListPlaying li.playing{
+#playListPlaying button.playing{
     border: 1px solid rgb(255, 255, 255);
 }
 
