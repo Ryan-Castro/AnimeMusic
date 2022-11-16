@@ -36,7 +36,12 @@
 
 
     <main>
-        <section><h1>Lista de musicas tocando</h1></section>
+        <section>
+            <h1>Lista de musicas tocando</h1>
+            <ul id="playListPlaying">
+                <li>Nenhuma Anime foi escolhido</li>
+            </ul>
+        </section>
         <div id="animes" class="content">
         </div>
         <div id="animesMusics" class="content">
@@ -45,8 +50,13 @@
     </main>
 
     <footer>
-        <img src="https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png" alt="" id="capa">
-        <h2 id="nameMusicPlayng">Nenhuma musica está tocando</h2>
+        <div id="infoMusic">
+            <img src="https://i.pinimg.com/originals/a5/71/ad/a571ad75a1c760bf8f692ef3fcc2b3d3.png" alt="" id="capa">
+            <div>
+                <h3 id="nameMusicPlayng">Nenhuma musica está tocando</h3>
+                <h4 id="nameAnimePlayng"></h4>
+            </div>
+        </div>
         <div id="controlsMusic">
             <div id="div-btn">
                 <button onclick="musicPrev()">
@@ -56,7 +66,7 @@
                 </button>
                 <button onclick="playAndPause(this)">
                     <span class="material-symbols-outlined">
-                    play_arrow
+                        pause
                     </span>
                 </button>
                 <button onclick="musicNext()">
@@ -69,8 +79,10 @@
                 <p>0:00/0:00</p>
             </div>
         </div>
-        
-        <input type="range" oninput="setvolume(this)" value="50">
+        <div id="optionsVolume">
+            <span class="material-symbols-outlined">volume_up</span>
+            <input type="range" oninput="setvolume(this)" value="50" id="volume">
+        </div>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
