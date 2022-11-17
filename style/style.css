@@ -101,6 +101,7 @@ main section{
 
 }
 
+
 #playListPlaying button{
     padding-top: 15px;
     padding-bottom: 15px;
@@ -117,6 +118,7 @@ main section{
 #animes{
     width: 75%;
     height: 100%;
+    overflow: auto;
 }
 .anime{
     display: flex;
