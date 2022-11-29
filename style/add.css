@@ -13,6 +13,7 @@ div#add{
     background-color: black;
 }
 
+
 #headerAdd{
     width: 100%;
     height: 6%;
@@ -21,6 +22,7 @@ div#add{
     justify-content: space-between;
     border-bottom: 1px solid white;
     padding: 5px;
+    color: white;
 }
 #infoAdd{
     width: 100%;
@@ -38,12 +40,23 @@ div#add{
 }
 
 #animeAdd{
-    background-color: #370BD4;
-    
+    background-color: grey;
+    position: relative;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+
+#animeAdd div,#characterAdd div{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
 }
 
 #characterAdd{
-    background-color: #0B4AD4;
+    background-color: grey;
+    position: relative;
+    color: white;
+    text-shadow: 1px 1px 1px black;
 }
 
 #add main{
@@ -54,7 +67,7 @@ div#add{
 
 
 main{
-    background-color: red;
+    background-color: grey;
     border-radius: 20px;
     margin: 10px;
     height: 100%;
